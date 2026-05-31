@@ -1,10 +1,42 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="am">
 <head>
-    <title>Transport System</title>
+    <meta charset="UTF-8">
+    <title>የትራንስፖርት ጥሰት መመዝገቢያ</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 20px; background-color: #f4f4f9; }
+        .container { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; }
+        button { width: 95%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
 </head>
 <body>
-    <h1>የተሽከርካሪ ጥሰት መመዝገቢያ</h1>
-    <p>ይህ ስርዓት በቅርቡ ይጀመራል!</p>
+    <div class="container">
+        <h1>የትራንስፖርት ጥሰት መመዝገቢያ</h1>
+        <p>የወረቀት ስራን ለማስቀረት እና መረጃን በዲጂታል መንገድ ለመቆጣጠር የተዘጋጀ።</p>
+        <p><strong>የሰራው ሰው፡ ብዙነህ ግባባቸው</strong></p>
+        
+        <hr>
+        <h3>የተቆጣጣሪ መግቢያ</h3>
+        <input type="text" id="userid" placeholder="የመለያ ቁጥር (ID)">
+        <input type="password" id="password" placeholder="የይለፍ ቃል">
+        <button onclick="checkLogin()">ግባ</button>
+    </div>
+
+    <script>
+        function checkLogin() {
+            const id = document.getElementById('userid').value;
+            const pass = document.getElementById('password').value;
+            
+            // የ39 ተቆጣጣሪዎች መለያ (ID) ማረጋገጫ (ምሳሌ)
+            if (id.startsWith("TC") && pass === "12345") {
+                alert("እንኳን ደህና መጡ! ወደ ምዝገባው ገጽ እየሄዱ ነው...");
+                // ወደፊት የምዝገባ ፎርሙን እዚህ ውስጥ እንከፍታለን
+            } else {
+                alert("የመለያ ቁጥር ወይም የይለፍ ቃል ስህተት ነው!");
+            }
+        }
+    </script>
 </body>
 </html>

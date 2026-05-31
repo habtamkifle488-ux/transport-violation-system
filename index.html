@@ -3,40 +3,351 @@
 <html lang="am">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>የትራንስፖርት ጥሰት መመዝገቢያ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 20px; background-color: #f4f4f9; }
-        .container { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; }
-        button { width: 95%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        :root {
+            --green: #1a7a3c;
+            --green-light: #27a752;
+            --green-dark: #145c2d;
+            --gold: #f0b429;
+            --red: #c0392b;
+            --bg: #f0f4f0;
+            --white: #ffffff;
+            --gray: #6b7280;
+            --border: #d1d5db;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Noto Sans Ethiopic', sans-serif; background: var(--bg); min-height: 100vh; }
+        .header { background: linear-gradient(135deg, var(--green-dark), var(--green)); color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .header .subtitle { font-size: 0.75rem; opacity: 0.85; margin-top: 2px; }
+        .header .badge { background: var(--gold); color: #333; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; }
+        .page { display: none; padding: 20px; max-width: 480px; margin: 0 auto; }
+        .page.active { display: block; }
+        .login-card { background: white; border-radius: 16px; padding: 32px 24px; box-shadow: var(--shadow); margin-top: 40px; }
+        .login-icon { width: 64px; height: 64px; background: linear-gradient(135deg, var(--green), var(--green-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 28px; }
+        .login-card h2 { text-align: center; color: var(--green-dark); margin-bottom: 8px; }
+        .login-card p { text-align: center; color: var(--gray); font-size: 0.85rem; margin-bottom: 24px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 0.85rem; color: #374151; margin-bottom: 6px; font-weight: 600; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px; font-family: 'Noto Sans Ethiopic', sans-serif; font-size: 0.9rem; transition: border-color 0.2s; background: #fafafa; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--green); background: white; }
+        .form-group textarea { min-height: 80px; resize: vertical; }
+        .btn { width: 100%; padding: 13px; border: none; border-radius: 10px; font-family: 'Noto Sans Ethiopic', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .btn-primary { background: linear-gradient(135deg, var(--green), var(--green-light)); color: white; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,122,60,0.3); }
+        .btn-danger { background: var(--red); color: white; }
+        .btn-outline { background: transparent; border: 2px solid var(--green); color: var(--green); }
+        .error-msg { background: #fef2f2; border: 1px solid #fca5a5; color: var(--red); padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 14px; display: none; }
+        .nav-tabs { display: flex; background: white; border-radius: 12px; padding: 4px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .nav-tab { flex: 1; padding: 10px 8px; text-align: center; border-radius: 9px; font-size: 0.78rem; font-family: 'Noto Sans Ethiopic', sans-serif; cursor: pointer; border: none; background: transparent; color: var(--gray); font-weight: 600; transition: all 0.2s; }
+        .nav-tab.active { background: var(--green); color: white; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .stat-card { background: white; border-radius: 12px; padding: 16px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .stat-num { font-size: 1.8rem; font-weight: 700; color: var(--green); }
+        .stat-label { font-size: 0.75rem; color: var(--gray); margin-top: 4px; }
+        .form-card { background: white; border-radius: 16px; padding: 20px; box-shadow: var(--shadow); }
+        .form-card h3 { color: var(--green-dark); margin-bottom: 16px; font-size: 1rem; }
+        .section-label { background: var(--green); color: white; padding: 6px 12px; border-radius: 6px; font-size: 0.78rem; margin: 16px 0 10px; display: inline-block; }
+        .record-card { background: white; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid var(--green); }
+        .record-plate { font-size: 1rem; font-weight: 700; color: var(--green-dark); }
+        .record-meta { font-size: 0.78rem; color: var(--gray); margin-top: 4px; }
+        .record-violation { font-size: 0.82rem; color: #374151; margin-top: 6px; }
+        .badge-fine { display: inline-block; background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; margin-top: 4px; }
+        .empty-state { text-align: center; color: var(--gray); padding: 40px 20px; font-size: 0.9rem; }
+        .inspector-card { background: white; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .inspector-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--green), var(--green-light)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+        .inspector-info { flex: 1; }
+        .inspector-name { font-weight: 700; font-size: 0.9rem; color: #111; }
+        .inspector-id { font-size: 0.75rem; color: var(--gray); }
+        .inspector-status { font-size: 0.7rem; padding: 3px 8px; border-radius: 20px; font-weight: 700; }
+        .status-active { background: #dcfce7; color: #166534; }
+        .status-inactive { background: #f3f4f6; color: #6b7280; }
+        .user-bar { background: white; border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .user-info { font-size: 0.85rem; }
+        .user-info strong { color: var(--green-dark); }
+        .user-info span { color: var(--gray); font-size: 0.75rem; display: block; }
+        .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--green-dark); color: white; padding: 12px 24px; border-radius: 30px; font-size: 0.85rem; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: transform 0.3s ease; z-index: 999; }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>የትራንስፖርት ጥሰት መመዝገቢያ</h1>
-        <p>የወረቀት ስራን ለማስቀረት እና መረጃን በዲጂታል መንገድ ለመቆጣጠር የተዘጋጀ።</p>
-        <p><strong>የሰራው ሰው፡ ብዙነህ ግባባቸው</strong></p>
-        
-        <hr>
-        <h3>የተቆጣጣሪ መግቢያ</h3>
-        <input type="text" id="userid" placeholder="የመለያ ቁጥር (ID)">
-        <input type="password" id="password" placeholder="የይለፍ ቃል">
-        <button onclick="checkLogin()">ግባ</button>
+
+<div class="header">
+    <div>
+        <div style="font-size:1rem;font-weight:700;color:white;">🚦 የትራንስፖርት ጥሰት መመዝገቢያ</div>
+        <div class="subtitle">ዲጂታል ቁጥጥር ስርዓት</div>
+    </div>
+    <div class="badge">v2.0</div>
+</div>
+
+<!-- LOGIN -->
+<div class="page active" id="page-login">
+    <div class="login-card">
+        <div class="login-icon">🛡️</div>
+        <h2>የተቆጣጣሪ መግቢያ</h2>
+        <p>ID እና የይለፍ ቃልዎን ያስገቡ</p>
+        <div class="error-msg" id="login-error">❌ የመለያ ቁጥር ወይም የይለፍ ቃል ስህተት ነው!</div>
+        <div class="form-group">
+            <label>የመለያ ቁጥር (ID)</label>
+            <input type="text" id="userid" placeholder="ምሳሌ፡ TC001">
+        </div>
+        <div class="form-group">
+            <label>የይለፍ ቃል</label>
+            <input type="password" id="password" placeholder="የይለፍ ቃልዎን ያስገቡ">
+        </div>
+        <button class="btn btn-primary" onclick="checkLogin()">ግባ →</button>
+        <p style="text-align:center;margin-top:14px;font-size:0.75rem;color:var(--gray);">ሰራው፡ <strong>ብዙነህ ግባባቸው</strong></p>
+    </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="page" id="page-dashboard">
+    <div class="user-bar">
+        <div class="user-info">
+            <strong id="current-user-name">ተቆጣጣሪ</strong>
+            <span id="current-user-id">ID: ---</span>
+        </div>
+        <button class="btn btn-outline" style="width:auto;padding:8px 16px;font-size:0.8rem;" onclick="logout()">ውጣ</button>
+    </div>
+    <div class="nav-tabs">
+        <button class="nav-tab active" onclick="switchTab('tab-register',this)">📝 ምዝገባ</button>
+        <button class="nav-tab" onclick="switchTab('tab-records',this)">📋 መዝገብ</button>
+        <button class="nav-tab" onclick="switchTab('tab-inspectors',this)">👥 ተቆጣጣሪዎች</button>
     </div>
 
-    <script>
-        function checkLogin() {
-            const id = document.getElementById('userid').value;
-            const pass = document.getElementById('password').value;
-            
-            // የ39 ተቆጣጣሪዎች መለያ (ID) ማረጋገጫ (ምሳሌ)
-            if (id.startsWith("TC") && pass === "12345") {
-                alert("እንኳን ደህና መጡ! ወደ ምዝገባው ገጽ እየሄዱ ነው...");
-                // ወደፊት የምዝገባ ፎርሙን እዚህ ውስጥ እንከፍታለን
-            } else {
-                alert("የመለያ ቁጥር ወይም የይለፍ ቃል ስህተት ነው!");
-            }
-        }
-    </script>
+    <!-- REGISTER TAB -->
+    <div class="tab-content active" id="tab-register">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-num" id="stat-total">0</div>
+                <div class="stat-label">ዛሬ የተመዘገቡ</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" id="stat-mine">0</div>
+                <div class="stat-label">የእኔ ምዝገባዎች</div>
+            </div>
+        </div>
+        <div class="form-card">
+            <h3>🚗 አዲስ ጥሰት ምዝገባ</h3>
+            <span class="section-label">የተሽከርካሪ መረጃ</span>
+            <div class="form-group">
+                <label>የሰሌዳ ቁጥር *</label>
+                <input type="text" id="f-plate" placeholder="ምሳሌ፡ AA 12345">
+            </div>
+            <div class="form-group">
+                <label>የተሽከርካሪ ዓይነት</label>
+                <select id="f-vtype">
+                    <option value="">ይምረጡ...</option>
+                    <option>መኪና (Car)</option>
+                    <option>ሚኒባስ</option>
+                    <option>አውቶቡስ</option>
+                    <option>ታክሲ</option>
+                    <option>ሞተር ሳይክል</option>
+                    <option>ጭነት መኪና</option>
+                </select>
+            </div>
+            <span class="section-label">የጥሰት መረጃ</span>
+            <div class="form-group">
+                <label>የጥሰት ዓይነት *</label>
+                <select id="f-viol">
+                    <option value="">ይምረጡ...</option>
+                    <option>ፍጥነት ማለፍ</option>
+                    <option>ቀይ መብራት ማለፍ</option>
+                    <option>ሰራተኛ ፈቃድ አለመያዝ</option>
+                    <option>ፈቃድ ማብቃት</option>
+                    <option>ያልተፈቀደ ቦታ ማቆም</option>
+                    <option>ሰፍ ጫኝ ማለፍ</option>
+                    <option>ሌላ</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>የተፈረደ ቅጣት (ብር)</label>
+                <input type="number" id="f-fine" placeholder="ምሳሌ፡ 500">
+            </div>
+            <div class="form-group">
+                <label>ቦታ / አድራሻ</label>
+                <input type="text" id="f-location" placeholder="ምሳሌ፡ ቦሌ መንገድ">
+            </div>
+            <div class="form-group">
+                <label>ተጨማሪ ማስታወሻ</label>
+                <textarea id="f-note" placeholder="ተጨማሪ ማብራሪያ..."></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="submitRecord()">✅ ምዝገባ አስገባ</button>
+        </div>
+    </div>
+
+    <!-- RECORDS TAB -->
+    <div class="tab-content" id="tab-records">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+            <strong style="color:var(--green-dark);">የተመዘገቡ ጥሰቶች</strong>
+            <button class="btn btn-danger" style="width:auto;padding:8px 14px;font-size:0.78rem;" onclick="clearRecords()">🗑 አጽዳ</button>
+        </div>
+        <div id="records-list"></div>
+    </div>
+
+    <!-- INSPECTORS TAB -->
+    <div class="tab-content" id="tab-inspectors">
+        <div class="form-card" style="margin-bottom:16px;">
+            <h3>➕ አዲስ ተቆጣጣሪ ጨምር</h3>
+            <div class="form-group">
+                <label>ስም</label>
+                <input type="text" id="new-insp-name" placeholder="ሙሉ ስም">
+            </div>
+            <div class="form-group">
+                <label>ID</label>
+                <input type="text" id="new-insp-id" placeholder="ምሳሌ፡ TC040">
+            </div>
+            <div class="form-group">
+                <label>የይለፍ ቃል</label>
+                <input type="password" id="new-insp-pass" placeholder="አዲስ የይለፍ ቃል">
+            </div>
+            <button class="btn btn-primary" onclick="addInspector()">ጨምር</button>
+        </div>
+        <strong style="color:var(--green-dark);display:block;margin-bottom:12px;">ተቆጣጣሪዎች ዝርዝር</strong>
+        <div id="inspectors-list"></div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const DEFAULT_INSPECTORS = [
+    {id:"TC001", name:"አበበ ከበደ", pass:"abc123", active:true},
+    {id:"TC002", name:"ሰላም ደሳለኝ", pass:"abc123", active:true},
+    {id:"TC003", name:"ምሕረት ሃይሌ", pass:"abc123", active:true},
+    {id:"TC004", name:"ዳዊት ተፈራ", pass:"abc123", active:true},
+    {id:"TC005", name:"ሄለን አለሙ", pass:"abc123", active:true},
+    {id:"ADMIN", name:"ብዙነህ ግባባቸው", pass:"admin2025", active:true}
+];
+
+let extraInspectors = JSON.parse(localStorage.getItem('extra_inspectors') || '[]');
+let inspectors = [...DEFAULT_INSPECTORS, ...extraInspectors];
+let records = JSON.parse(localStorage.getItem('records') || '[]');
+let currentUser = null;
+let todayStr = new Date().toLocaleDateString('am-ET');
+
+function saveData() {
+    localStorage.setItem('extra_inspectors', JSON.stringify(extraInspectors));
+    localStorage.setItem('records', JSON.stringify(records));
+}
+
+function checkLogin() {
+    const id = document.getElementById('userid').value.trim().toUpperCase();
+    const pass = document.getElementById('password').value;
+    const insp = inspectors.find(i => i.id === id && i.pass === pass && i.active);
+    const errEl = document.getElementById('login-error');
+    if (insp) {
+        currentUser = insp;
+        errEl.style.display = 'none';
+        document.getElementById('current-user-name').textContent = insp.name;
+        document.getElementById('current-user-id').textContent = 'ID: ' + insp.id;
+        showPage('dashboard');
+        updateStats();
+        renderRecords();
+        renderInspectors();
+    } else {
+        errEl.style.display = 'block';
+    }
+}
+
+function logout() {
+    currentUser = null;
+    document.getElementById('userid').value = '';
+    document.getElementById('password').value = '';
+    showPage('login');
+}
+
+function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+}
+
+function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    btn.classList.add('active');
+    if (tabId === 'tab-records') renderRecords();
+    if (tabId === 'tab-inspectors') renderInspectors();
+}
+
+function submitRecord() {
+    const plate = document.getElementById('f-plate').value.trim();
+    const vtype = document.getElementById('f-vtype').value;
+    const viol = document.getElementById('f-viol').value;
+    const fine = document.getElementById('f-fine').value;
+    const loc = document.getElementById('f-location').value.trim();
+    const note = document.getElementById('f-note').value.trim();
+    if (!plate || !viol) { showToast('⚠️ የሰሌዳ ቁጥር እና የጥሰት ዓይነት ያስፈልጋሉ!'); return; }
+    const rec = { id: Date.now(), plate, vtype, viol, fine, loc, note, inspector: currentUser.name, inspectorId: currentUser.id, time: new Date().toLocaleString('am-ET'), date: new Date().toLocaleDateString('am-ET') };
+    records.unshift(rec);
+    saveData();
+    updateStats();
+    ['f-plate','f-vtype','f-viol','f-fine','f-location','f-note'].forEach(id => { document.getElementById(id).value = ''; });
+    showToast('✅ ምዝገባ በተሳካ ሁኔታ ተመዝግቧል!');
+}
+
+function renderRecords() {
+    const el = document.getElementById('records-list');
+    if (!records.length) { el.innerHTML = '<div class="empty-state">📭 እስካሁን ምዝገባ የለም</div>'; return; }
+    el.innerHTML = records.map(r => `
+        <div class="record-card">
+            <div class="record-plate">🚗 ${r.plate} ${r.vtype ? '— ' + r.vtype : ''}</div>
+            <div class="record-violation">⚠️ ${r.viol}</div>
+            ${r.fine ? `<span class="badge-fine">💰 ${r.fine} ብር</span>` : ''}
+            <div class="record-meta">📍 ${r.loc || 'ቦታ አልተገለጸም'} | 🕐 ${r.time}<br>👤 ${r.inspector} (${r.inspectorId})${r.note ? '<br>📝 ' + r.note : ''}</div>
+        </div>`).join('');
+}
+
+function clearRecords() {
+    if (confirm('ሁሉንም መዝገቦች መሰረዝ ትፈልጋለህ?')) {
+        records = []; saveData(); renderRecords(); updateStats(); showToast('🗑 መዝገቦች ተሰርዘዋል');
+    }
+}
+
+function updateStats() {
+    document.getElementById('stat-total').textContent = records.filter(r => r.date === todayStr).length;
+    document.getElementById('stat-mine').textContent = records.filter(r => r.inspectorId === currentUser?.id).length;
+}
+
+function renderInspectors() {
+    document.getElementById('inspectors-list').innerHTML = inspectors.map(i => `
+        <div class="inspector-card">
+            <div class="inspector-avatar">${i.name.charAt(0)}</div>
+            <div class="inspector-info"><div class="inspector-name">${i.name}</div><div class="inspector-id">ID: ${i.id}</div></div>
+            <span class="inspector-status ${i.active ? 'status-active' : 'status-inactive'}">${i.active ? '✔ ንቁ' : '✘ ያልንቁ'}</span>
+        </div>`).join('');
+}
+
+function addInspector() {
+    const name = document.getElementById('new-insp-name').value.trim();
+    const id = document.getElementById('new-insp-id').value.trim().toUpperCase();
+    const pass = document.getElementById('new-insp-pass').value;
+    if (!name || !id || !pass) { showToast('⚠️ ሁሉንም መረጃ ያስገቡ!'); return; }
+    if (inspectors.find(i => i.id === id)) { showToast('⚠️ ይህ ID አስቀድሞ አለ!'); return; }
+    extraInspectors.push({ id, name, pass, active: true });
+    inspectors = [...DEFAULT_INSPECTORS, ...extraInspectors];
+    saveData(); renderInspectors();
+    document.getElementById('new-insp-name').value = '';
+    document.getElementById('new-insp-id').value = '';
+    document.getElementById('new-insp-pass').value = '';
+    showToast('✅ ተቆጣጣሪ ተጨምሯል!');
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && document.getElementById('page-login').classList.contains('active')) checkLogin();
+});
+</script>
 </body>
 </html>

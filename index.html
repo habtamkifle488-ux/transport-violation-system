@@ -1,578 +1,362 @@
 <!DOCTYPE html>
 <html lang="am">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>የአዲስ አበባ ትራንስፖርት ቢሮ - ሩዋቃቂ ቃሊቲ</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@300;400;600;700;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --primary: #0a3d62;
-    --accent: #f9ca24;
-    --accent2: #e55039;
-    --light: #ecf0f1;
-    --mid: #b2bec3;
-    --dark: #0a1628;
-    --green: #27ae60;
-    --card-bg: #ffffff;
-    --shadow: 0 4px 24px rgba(10,61,98,0.10);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Noto Sans Ethiopic', sans-serif;
-    background: linear-gradient(135deg, #0a3d62 0%, #1a5276 60%, #0a1628 100%);
-    min-height: 100vh;
-    color: #222;
-  }
-
-  /* HEADER */
-  .header {
-    background: linear-gradient(90deg, #0a3d62 60%, #1a5276 100%);
-    border-bottom: 4px solid var(--accent);
-    padding: 0;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
-  }
-  .header-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    padding: 18px 24px 14px;
-  }
-  .logo-circle {
-    width: 72px; height: 72px;
-    border-radius: 50%;
-    background: var(--accent);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 32px;
-    box-shadow: 0 0 0 4px #fff2, 0 4px 16px rgba(249,202,36,0.4);
-    flex-shrink: 0;
-  }
-  .header-text { flex: 1; }
-  .header-text .org {
-    font-size: 11px;
-    color: var(--mid);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-family: 'Oswald', sans-serif;
-  }
-  .header-text h1 {
-    font-size: 1.45rem;
-    font-weight: 900;
-    color: #fff;
-    line-height: 1.2;
-    margin: 4px 0 2px;
-  }
-  .header-text .sub {
-    font-size: 0.92rem;
-    color: var(--accent);
-    font-weight: 600;
-  }
-  .header-date {
-    text-align: right;
-    color: #fff;
-  }
-  .header-date .date-label { font-size: 11px; color: var(--mid); letter-spacing: 1px; }
-  .header-date .date-val { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
-  .header-date .time-val { font-size: 0.85rem; color: var(--mid); }
-
-  /* NAV TABS */
-  .nav-tabs {
-    background: #07294a;
-    display: flex;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 24px;
-    gap: 4px;
-  }
-  .nav-tab {
-    padding: 10px 20px;
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: var(--mid);
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    transition: all 0.2s;
-    font-family: 'Noto Sans Ethiopic', sans-serif;
-  }
-  .nav-tab.active, .nav-tab:hover {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
-  }
-
-  /* MAIN */
-  .main {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 28px 24px 40px;
-  }
-
-  /* SECTION TITLE */
-  .section-title {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 16px;
-    margin-top: 28px;
-  }
-  .section-title .bar {
-    width: 5px; height: 28px;
-    background: var(--accent);
-    border-radius: 3px;
-  }
-  .section-title h2 {
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: #fff;
-    letter-spacing: 0.5px;
-  }
-
-  /* STATS ROW */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin-bottom: 24px;
-  }
-  .stat-card {
-    background: var(--card-bg);
-    border-radius: 12px;
-    padding: 18px 16px 14px;
-    box-shadow: var(--shadow);
-    border-top: 4px solid var(--primary);
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.18s;
-  }
-  .stat-card:hover { transform: translateY(-3px); }
-  .stat-card.accent { border-top-color: var(--accent); }
-  .stat-card.green { border-top-color: var(--green); }
-  .stat-card.red { border-top-color: var(--accent2); }
-  .stat-card .icon {
-    font-size: 1.8rem;
-    margin-bottom: 6px;
-  }
-  .stat-card .label {
-    font-size: 0.78rem;
-    color: #666;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .stat-card .value {
-    font-size: 2rem;
-    font-weight: 900;
-    color: var(--primary);
-    font-family: 'Oswald', sans-serif;
-    line-height: 1.1;
-    margin: 2px 0;
-  }
-  .stat-card .unit { font-size: 0.8rem; color: #888; }
-  .stat-card .change {
-    font-size: 0.78rem;
-    font-weight: 700;
-    margin-top: 4px;
-  }
-  .change.up { color: var(--green); }
-  .change.down { color: var(--accent2); }
-
-  /* TABLE */
-  .table-card {
-    background: var(--card-bg);
-    border-radius: 14px;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    margin-bottom: 22px;
-  }
-  .table-card-header {
-    background: var(--primary);
-    color: #fff;
-    padding: 13px 20px;
-    font-weight: 700;
-    font-size: 0.97rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.88rem;
-  }
-  thead th {
-    background: #eaf0f6;
-    color: var(--primary);
-    font-weight: 800;
-    padding: 10px 14px;
-    text-align: left;
-    border-bottom: 2px solid #d0dce8;
-    font-size: 0.82rem;
-    letter-spacing: 0.3px;
-  }
-  tbody tr { transition: background 0.15s; }
-  tbody tr:hover { background: #f0f7ff; }
-  tbody td {
-    padding: 10px 14px;
-    border-bottom: 1px solid #eee;
-    color: #333;
-  }
-  tbody tr:last-child td { border-bottom: none; }
-  .badge {
-    display: inline-block;
-    padding: 2px 10px;
-    border-radius: 20px;
-    font-size: 0.77rem;
-    font-weight: 700;
-  }
-  .badge.ok { background: #eafaf1; color: #1e8449; }
-  .badge.warn { background: #fef9e7; color: #b7950b; }
-  .badge.bad { background: #fdf2f2; color: #c0392b; }
-
-  /* FORM SECTION */
-  .form-card {
-    background: var(--card-bg);
-    border-radius: 14px;
-    box-shadow: var(--shadow);
-    padding: 24px 24px 20px;
-    margin-bottom: 22px;
-  }
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  .form-group { display: flex; flex-direction: column; gap: 5px; }
-  .form-group.full { grid-column: 1 / -1; }
-  .form-group label {
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: var(--primary);
-    letter-spacing: 0.3px;
-  }
-  .form-group input, .form-group select, .form-group textarea {
-    border: 1.5px solid #d0dce8;
-    border-radius: 7px;
-    padding: 9px 12px;
-    font-size: 0.9rem;
-    font-family: 'Noto Sans Ethiopic', sans-serif;
-    color: #333;
-    background: #f8fbff;
-    transition: border-color 0.2s;
-    outline: none;
-  }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-    border-color: var(--primary);
-    background: #fff;
-  }
-  .form-group textarea { min-height: 70px; resize: vertical; }
-  .btn-row { display: flex; gap: 12px; margin-top: 18px; justify-content: flex-end; }
-  .btn {
-    padding: 10px 28px;
-    border-radius: 8px;
-    font-size: 0.92rem;
-    font-weight: 700;
-    cursor: pointer;
-    border: none;
-    font-family: 'Noto Sans Ethiopic', sans-serif;
-    transition: all 0.18s;
-  }
-  .btn-primary {
-    background: var(--primary);
-    color: #fff;
-  }
-  .btn-primary:hover { background: #1a5276; }
-  .btn-accent {
-    background: var(--accent);
-    color: var(--dark);
-  }
-  .btn-accent:hover { background: #f0c000; }
-  .btn-outline {
-    background: transparent;
-    color: var(--primary);
-    border: 2px solid var(--primary);
-  }
-  .btn-outline:hover { background: #eaf0f6; }
-
-  /* FOOTER */
-  .footer {
-    text-align: center;
-    color: #aaa;
-    font-size: 0.78rem;
-    padding: 18px 0 10px;
-    border-top: 1px solid #ffffff15;
-    margin-top: 10px;
-  }
-  .footer span { color: var(--accent); font-weight: 700; }
-
-  /* RESPONSIVE */
-  @media (max-width: 700px) {
-    .stats-row { grid-template-columns: 1fr 1fr; }
-    .form-grid { grid-template-columns: 1fr; }
-    .header-inner { flex-wrap: wrap; gap: 12px; }
-    .header-date { text-align: left; }
-  }
-  @media (max-width: 420px) {
-    .stats-row { grid-template-columns: 1fr; }
-  }
-
-  /* ANIMATE */
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .stat-card { animation: fadeInUp 0.5s both; }
-  .stat-card:nth-child(1) { animation-delay: 0.05s; }
-  .stat-card:nth-child(2) { animation-delay: 0.12s; }
-  .stat-card:nth-child(3) { animation-delay: 0.19s; }
-  .stat-card:nth-child(4) { animation-delay: 0.26s; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትራንስፖርት ጥሰት መመዝገቢያ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green: #1a7a3c;
+            --green-light: #27a752;
+            --green-dark: #145c2d;
+            --gold: #f0b429;
+            --red: #c0392b;
+            --bg: #f0f4f0;
+            --white: #ffffff;
+            --gray: #6b7280;
+            --border: #d1d5db;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Noto Sans Ethiopic', sans-serif; background: var(--bg); min-height: 100vh; }
+        .header { background: linear-gradient(135deg, var(--green-dark), var(--green)); color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .header .subtitle { font-size: 0.75rem; opacity: 0.85; margin-top: 2px; }
+        .header .badge { background: var(--gold); color: #333; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; }
+        .page { display: none; padding: 20px; max-width: 480px; margin: 0 auto; }
+        .page.active { display: block; }
+        .login-card { background: white; border-radius: 16px; padding: 32px 24px; box-shadow: var(--shadow); margin-top: 40px; }
+        .login-icon { width: 64px; height: 64px; background: linear-gradient(135deg, var(--green), var(--green-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 28px; }
+        .login-card h2 { text-align: center; color: var(--green-dark); margin-bottom: 8px; }
+        .login-card p { text-align: center; color: var(--gray); font-size: 0.85rem; margin-bottom: 24px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 0.85rem; color: #374151; margin-bottom: 6px; font-weight: 600; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px; font-family: 'Noto Sans Ethiopic', sans-serif; font-size: 0.9rem; transition: border-color 0.2s; background: #fafafa; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--green); background: white; }
+        .form-group textarea { min-height: 80px; resize: vertical; }
+        .btn { width: 100%; padding: 13px; border: none; border-radius: 10px; font-family: 'Noto Sans Ethiopic', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .btn-primary { background: linear-gradient(135deg, var(--green), var(--green-light)); color: white; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,122,60,0.3); }
+        .btn-danger { background: var(--red); color: white; }
+        .btn-outline { background: transparent; border: 2px solid var(--green); color: var(--green); }
+        .error-msg { background: #fef2f2; border: 1px solid #fca5a5; color: var(--red); padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 14px; display: none; }
+        .nav-tabs { display: flex; background: white; border-radius: 12px; padding: 4px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .nav-tab { flex: 1; padding: 10px 8px; text-align: center; border-radius: 9px; font-size: 0.78rem; font-family: 'Noto Sans Ethiopic', sans-serif; cursor: pointer; border: none; background: transparent; color: var(--gray); font-weight: 600; transition: all 0.2s; }
+        .nav-tab.active { background: var(--green); color: white; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .stat-card { background: white; border-radius: 12px; padding: 16px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .stat-num { font-size: 1.8rem; font-weight: 700; color: var(--green); }
+        .stat-label { font-size: 0.75rem; color: var(--gray); margin-top: 4px; }
+        .form-card { background: white; border-radius: 16px; padding: 20px; box-shadow: var(--shadow); }
+        .form-card h3 { color: var(--green-dark); margin-bottom: 16px; font-size: 1rem; }
+        .section-label { background: var(--green); color: white; padding: 6px 12px; border-radius: 6px; font-size: 0.78rem; margin: 16px 0 10px; display: inline-block; }
+        .record-card { background: white; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid var(--green); }
+        .record-plate { font-size: 1rem; font-weight: 700; color: var(--green-dark); }
+        .record-meta { font-size: 0.78rem; color: var(--gray); margin-top: 4px; }
+        .record-violation { font-size: 0.82rem; color: #374151; margin-top: 6px; }
+        .badge-fine { display: inline-block; background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; margin-top: 4px; }
+        .empty-state { text-align: center; color: var(--gray); padding: 40px 20px; font-size: 0.9rem; }
+        .inspector-card { background: white; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .inspector-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--green), var(--green-light)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+        .inspector-info { flex: 1; }
+        .inspector-name { font-weight: 700; font-size: 0.9rem; color: #111; }
+        .inspector-id { font-size: 0.75rem; color: var(--gray); }
+        .inspector-status { font-size: 0.7rem; padding: 3px 8px; border-radius: 20px; font-weight: 700; }
+        .status-active { background: #dcfce7; color: #166534; }
+        .status-inactive { background: #f3f4f6; color: #6b7280; }
+        .user-bar { background: white; border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .user-info { font-size: 0.85rem; }
+        .user-info strong { color: var(--green-dark); }
+        .user-info span { color: var(--gray); font-size: 0.75rem; display: block; }
+        .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--green-dark); color: white; padding: 12px 24px; border-radius: 30px; font-size: 0.85rem; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: transform 0.3s ease; z-index: 999; }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-inner">
-    <div class="logo-circle">🚌</div>
-    <div class="header-text">
-      <div class="org">የአዲስ አበባ ከተማ አስተዳደር — ትራንስፖርት ቢሮ</div>
-      <h1>ሩዋቃቂ ቃሊቲ ክፍለ ከተማ</h1>
-      <div class="sub">የህዝብ ትራንስፖርት እና የደረቅ ጭነት አገልግሎት</div>
+    <div>
+        <div style="font-size:1rem;font-weight:700;color:white;">🚦 የትራንስፖርት ጥሰት መመዝገቢያ</div>
+        <div class="subtitle">ዲጂታል ቁጥጥር ስርዓት</div>
     </div>
-    <div class="header-date">
-      <div class="date-label">የዛሬ ቀን</div>
-      <div class="date-val" id="today-date"></div>
-      <div class="time-val" id="today-time"></div>
-    </div>
-  </div>
-  <div class="nav-tabs">
-    <div class="nav-tab active" onclick="showTab('dashboard')">📊 ዳሽቦርድ</div>
-    <div class="nav-tab" onclick="showTab('passenger')">🚌 የህዝብ ትራንስፖርት</div>
-    <div class="nav-tab" onclick="showTab('freight')">🚛 የደረቅ ጭነት</div>
-    <div class="nav-tab" onclick="showTab('report')">📋 ሪፖርት አስገባ</div>
-  </div>
+    <div class="badge">v2.0</div>
 </div>
 
-<div class="main">
-
-  <!-- DASHBOARD TAB -->
-  <div id="tab-dashboard">
-    <div class="section-title"><div class="bar"></div><h2>የዛሬ ማጠቃለያ — ዕለታዊ ሪፖርት</h2></div>
-
-    <div class="stats-row">
-      <div class="stat-card accent">
-        <div class="icon">🚌</div>
-        <div class="label">ዕለታዊ ተሳፋሪ</div>
-        <div class="value">12,480</div>
-        <div class="unit">ሰው</div>
-        <div class="change up">▲ 4.2% ከትናንት</div>
-      </div>
-      <div class="stat-card green">
-        <div class="icon">🚛</div>
-        <div class="label">የጭነት ጉዞ</div>
-        <div class="value">347</div>
-        <div class="unit">ጉዞ</div>
-        <div class="change up">▲ 1.8% ከትናንት</div>
-      </div>
-      <div class="stat-card">
-        <div class="icon">🛣️</div>
-        <div class="label">ንቁ መስመሮች</div>
-        <div class="value">28</div>
-        <div class="unit">መስመር</div>
-        <div class="change up">▲ 2 አዲስ</div>
-      </div>
-      <div class="stat-card red">
-        <div class="icon">⚠️</div>
-        <div class="label">ችግር ሪፖርቶች</div>
-        <div class="value">6</div>
-        <div class="unit">ቅሬታ</div>
-        <div class="change down">▼ 3 ቀንሷል</div>
-      </div>
-    </div>
-
-    <div class="table-card">
-      <div class="table-card-header">🚌 የህዝብ ትራንስፖርት — የዕለቱ ዋና መስመሮች</div>
-      <table>
-        <thead>
-          <tr>
-            <th>መስመር ቁጥር</th>
-            <th>መነሻ — መድረሻ</th>
-            <th>አጠቃላይ ጉዞ</th>
-            <th>ተሳፋሪ</th>
-            <th>ደረጃ</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><b>M-01</b></td><td>ሜርካቶ — ቃሊቲ</td><td>42</td><td>2,100</td><td><span class="badge ok">✓ ጥሩ</span></td></tr>
-          <tr><td><b>M-02</b></td><td>ሜርካቶ — ሩዋቃቂ</td><td>38</td><td>1,900</td><td><span class="badge ok">✓ ጥሩ</span></td></tr>
-          <tr><td><b>K-05</b></td><td>ቃሊቲ — ካዛንቺስ</td><td>35</td><td>1,680</td><td><span class="badge warn">⚡ መካከለኛ</span></td></tr>
-          <tr><td><b>R-08</b></td><td>ሩዋቃቂ — ሜክሲኮ</td><td>30</td><td>1,500</td><td><span class="badge ok">✓ ጥሩ</span></td></tr>
-          <tr><td><b>K-12</b></td><td>ቃሊቲ — ቦሌ</td><td>28</td><td>1,400</td><td><span class="badge bad">✗ ዘግይቷል</span></td></tr>
-          <tr><td><b>M-15</b></td><td>ቃሊቲ — ሰሚት</td><td>25</td><td>1,250</td><td><span class="badge ok">✓ ጥሩ</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="table-card">
-      <div class="table-card-header">🚛 የደረቅ ጭነት — የዕለቱ ሪፖርት</div>
-      <table>
-        <thead>
-          <tr>
-            <th>ሹፌር ስም</th>
-            <th>ሰሌዳ ቁጥር</th>
-            <th>የጭነት ዓይነት</th>
-            <th>መጠን (ኩንታል)</th>
-            <th>ሁኔታ</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>አበበ ከበደ</td><td>AA 3-45678</td><td>ግንባታ ቁሳቁስ</td><td>120</td><td><span class="badge ok">✓ ደርሷል</span></td></tr>
-          <tr><td>ሙሉ ወርቅ</td><td>AA 4-12345</td><td>የምግብ ዕቃ</td><td>85</td><td><span class="badge ok">✓ ደርሷል</span></td></tr>
-          <tr><td>ዳዊት ሃይሌ</td><td>AA 2-67890</td><td>ብረታ ብረት</td><td>200</td><td><span class="badge warn">⚡ በመንገድ ላይ</span></td></tr>
-          <tr><td>ሰላም ተስፋዬ</td><td>AA 5-23456</td><td>እንጨት</td><td>95</td><td><span class="badge bad">✗ ዘግይቷል</span></td></tr>
-          <tr><td>ዮሐንስ አለሙ</td><td>AA 1-78901</td><td>የኢንዱስትሪ ዕቃ</td><td>145</td><td><span class="badge ok">✓ ደርሷል</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- PASSENGER TAB -->
-  <div id="tab-passenger" style="display:none">
-    <div class="section-title"><div class="bar"></div><h2>🚌 የህዝብ ትራንስፖርት ዝርዝር ሪፖርት</h2></div>
-    <div class="stats-row">
-      <div class="stat-card accent"><div class="icon">👥</div><div class="label">ዕለታዊ ተሳፋሪ</div><div class="value">12,480</div><div class="unit">ሰው</div></div>
-      <div class="stat-card green"><div class="icon">🚌</div><div class="label">ንቁ አውቶቡሶች</div><div class="value">94</div><div class="unit">ተሽከርካሪ</div></div>
-      <div class="stat-card"><div class="icon">🛣️</div><div class="label">አጠቃላይ ጉዞ</div><div class="value">198</div><div class="unit">ጉዞ</div></div>
-      <div class="stat-card red"><div class="icon">⏱️</div><div class="label">ዘግይቷቸው</div><div class="value">11</div><div class="unit">ጉዞ</div></div>
-    </div>
-    <div class="table-card">
-      <div class="table-card-header">🚌 ሙሉ የመስመር ሪፖርት</div>
-      <table>
-        <thead>
-          <tr><th>መስመር</th><th>ርቀት (ኪ.ሜ)</th><th>አጠቃላይ ጉዞ</th><th>ተሳፋሪ</th><th>ያዘገዩ ጉዞ</th><th>ሁኔታ</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>M-01 ሜርካቶ-ቃሊቲ</td><td>14.2</td><td>42</td><td>2,100</td><td>0</td><td><span class="badge ok">✓ ጥሩ</span></td></tr>
-          <tr><td>M-02 ሜርካቶ-ሩዋቃቂ</td><td>12.8</td><td>38</td><td>1,900</td><td>1</td><td><span class="badge ok">✓ ጥሩ</span></td></tr>
-          <tr><td>K-05 ቃሊቲ-ካዛንቺስ</td><td>18.4</td><td>35</td><td>1,680</td><td>3</td><td><span class="badge warn">⚡ መካከለኛ</span></td></tr>
-          <tr><td>R-08 ሩዋቃቂ-ሜክሲኮ</td><td>10.5</td><td>30</td><td>1,500</td><td>0</td><td><span class="badge ok">✓ ጥሩ</span></td></tr>
-          <tr><td>K-12 ቃሊቲ-ቦሌ</td><td>22.1</td><td>28</td><td>1,400</td><td>5</td><td><span class="badge bad">✗ ዘግይቷል</span></td></tr>
-          <tr><td>M-15 ቃሊቲ-ሰሚት</td><td>16.7</td><td>25</td><td>1,250</td><td>2</td><td><span class="badge ok">✓ ጥሩ</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- FREIGHT TAB -->
-  <div id="tab-freight" style="display:none">
-    <div class="section-title"><div class="bar"></div><h2>🚛 የደረቅ ጭነት ዝርዝር ሪፖርት</h2></div>
-    <div class="stats-row">
-      <div class="stat-card accent"><div class="icon">🚛</div><div class="label">አጠቃላይ ጉዞ</div><div class="value">347</div><div class="unit">ጉዞ</div></div>
-      <div class="stat-card green"><div class="icon">📦</div><div class="label">ደርሷል</div><div class="value">298</div><div class="unit">ጉዞ</div></div>
-      <div class="stat-card"><div class="icon">🔄</div><div class="label">በመንገድ</div><div class="value">34</div><div class="unit">ጉዞ</div></div>
-      <div class="stat-card red"><div class="icon">⚠️</div><div class="label">ዘግይቷቸው</div><div class="value">15</div><div class="unit">ጉዞ</div></div>
-    </div>
-    <div class="table-card">
-      <div class="table-card-header">🚛 ዝርዝር የጭነት ሪፖርት</div>
-      <table>
-        <thead>
-          <tr><th>ሹፌር</th><th>ሰሌዳ</th><th>ዓይነት</th><th>ኩንታል</th><th>መነሻ</th><th>መድረሻ</th><th>ሁኔታ</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>አበበ ከበደ</td><td>AA 3-45678</td><td>ቁሳቁስ</td><td>120</td><td>ቃሊቲ</td><td>ሜርካቶ</td><td><span class="badge ok">✓ ደርሷል</span></td></tr>
-          <tr><td>ሙሉ ወርቅ</td><td>AA 4-12345</td><td>ምግብ</td><td>85</td><td>ሩዋቃቂ</td><td>ቦሌ</td><td><span class="badge ok">✓ ደርሷል</span></td></tr>
-          <tr><td>ዳዊት ሃይሌ</td><td>AA 2-67890</td><td>ብረት</td><td>200</td><td>ቃሊቲ</td><td>ሰሚት</td><td><span class="badge warn">⚡ በመንገድ</span></td></tr>
-          <tr><td>ሰላም ተስፋዬ</td><td>AA 5-23456</td><td>እንጨት</td><td>95</td><td>ሩዋቃቂ</td><td>ካዛንቺስ</td><td><span class="badge bad">✗ ዘግይቷል</span></td></tr>
-          <tr><td>ዮሐንስ አለሙ</td><td>AA 1-78901</td><td>ኢንዱስትሪ</td><td>145</td><td>ቃሊቲ</td><td>አዲሱ ዓለም</td><td><span class="badge ok">✓ ደርሷል</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- REPORT TAB -->
-  <div id="tab-report" style="display:none">
-    <div class="section-title"><div class="bar"></div><h2>📋 አዲስ ሪፖርት አስገባ</h2></div>
-    <div class="form-card">
-      <div style="font-weight:800;color:var(--primary);margin-bottom:16px;font-size:1rem;">🚌 የህዝብ ትራንስፖርት ሪፖርት</div>
-      <div class="form-grid">
-        <div class="form-group"><label>ሪፖርት ቀን</label><input type="date" id="rdate"></div>
-        <div class="form-group"><label>መስመር ቁጥር</label><input type="text" placeholder="ለምሳሌ: M-01"></div>
-        <div class="form-group"><label>አጠቃላይ ጉዞ</label><input type="number" placeholder="0"></div>
-        <div class="form-group"><label>አጠቃላይ ተሳፋሪ</label><input type="number" placeholder="0"></div>
-        <div class="form-group"><label>ያዘገዩ ጉዞ</label><input type="number" placeholder="0"></div>
-        <div class="form-group"><label>ሁኔታ</label>
-          <select>
-            <option>ጥሩ</option>
-            <option>መካከለኛ</option>
-            <option>ዘግይቷል</option>
-          </select>
+<!-- LOGIN -->
+<div class="page active" id="page-login">
+    <div class="login-card">
+        <div class="login-icon">🛡️</div>
+        <h2>የተቆጣጣሪ መግቢያ</h2>
+        <p>ID እና የይለፍ ቃልዎን ያስገቡ</p>
+        <div class="error-msg" id="login-error">❌ የመለያ ቁጥር ወይም የይለፍ ቃል ስህተት ነው!</div>
+        <div class="form-group">
+            <label>የመለያ ቁጥር (ID)</label>
+            <input type="text" id="userid" placeholder="ምሳሌ፡ TC001">
         </div>
-        <div class="form-group full"><label>ማስታወሻ</label><textarea placeholder="ተጨማሪ መረጃ ካለ ይጻፉ..."></textarea></div>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-outline">🗑️ አጽዳ</button>
-        <button class="btn btn-accent">💾 አስቀምጥ</button>
-        <button class="btn btn-primary">📤 ሪፖርት ላክ</button>
-      </div>
-    </div>
-
-    <div class="form-card">
-      <div style="font-weight:800;color:var(--primary);margin-bottom:16px;font-size:1rem;">🚛 የደረቅ ጭነት ሪፖርት</div>
-      <div class="form-grid">
-        <div class="form-group"><label>ቀን</label><input type="date"></div>
-        <div class="form-group"><label>ሹፌር ስም</label><input type="text" placeholder="ሙሉ ስም"></div>
-        <div class="form-group"><label>ሰሌዳ ቁጥር</label><input type="text" placeholder="AA 0-00000"></div>
-        <div class="form-group"><label>የጭነት ዓይነት</label><input type="text" placeholder="ዓይነት ይጻፉ"></div>
-        <div class="form-group"><label>መጠን (ኩንታል)</label><input type="number" placeholder="0"></div>
-        <div class="form-group"><label>ሁኔታ</label>
-          <select>
-            <option>ደርሷል</option>
-            <option>በመንገድ ላይ</option>
-            <option>ዘግይቷል</option>
-          </select>
+        <div class="form-group">
+            <label>የይለፍ ቃል</label>
+            <input type="password" id="password" placeholder="የይለፍ ቃልዎን ያስገቡ">
         </div>
-        <div class="form-group full"><label>ማስታወሻ</label><textarea placeholder="ተጨማሪ መረጃ..."></textarea></div>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-outline">🗑️ አጽዳ</button>
-        <button class="btn btn-accent">💾 አስቀምጥ</button>
-        <button class="btn btn-primary">📤 ሪፖርት ላክ</button>
-      </div>
+        <button class="btn btn-primary" onclick="checkLogin()">ግባ →</button>
+        <p style="text-align:center;margin-top:14px;font-size:0.75rem;color:var(--gray);">ሰራው፡ <strong>ብዙነህ ግባባቸው</strong></p>
     </div>
-  </div>
-
 </div>
 
-<div class="footer">
-  <span>የአዲስ አበባ ትራንስፖርት ቢሮ</span> — ሩዋቃቂ ቃሊቲ ክፍለ ከተማ &nbsp;|&nbsp; ዕለታዊ ሪፖርት ስርዓት &nbsp;|&nbsp; © 2026
+<!-- DASHBOARD -->
+<div class="page" id="page-dashboard">
+    <div class="user-bar">
+        <div class="user-info">
+            <strong id="current-user-name">ተቆጣጣሪ</strong>
+            <span id="current-user-id">ID: ---</span>
+        </div>
+        <button class="btn btn-outline" style="width:auto;padding:8px 16px;font-size:0.8rem;" onclick="logout()">ውጣ</button>
+    </div>
+    <div class="nav-tabs">
+        <button class="nav-tab active" onclick="switchTab('tab-register',this)">📝 ምዝገባ</button>
+        <button class="nav-tab" onclick="switchTab('tab-records',this)">📋 መዝገብ</button>
+        <button class="nav-tab" onclick="switchTab('tab-inspectors',this)">👥 ተቆጣጣሪዎች</button>
+    </div>
+
+    <!-- REGISTER TAB -->
+    <div class="tab-content active" id="tab-register">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-num" id="stat-total">0</div>
+                <div class="stat-label">ዛሬ የተመዘገቡ</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num" id="stat-mine">0</div>
+                <div class="stat-label">የእኔ ምዝገባዎች</div>
+            </div>
+        </div>
+        <div class="form-card">
+            <h3>🚗 አዲስ ጥሰት ምዝገባ</h3>
+            <span class="section-label">የተሽከርካሪ መረጃ</span>
+            <div class="form-group">
+                <label>የሰሌዳ ቁጥር *</label>
+                <input type="text" id="f-plate" placeholder="ምሳሌ፡ AA 12345">
+            </div>
+            <div class="form-group">
+                <label>የተሽከርካሪ ዓይነት</label>
+                <select id="f-vtype">
+                    <option value="">ይምረጡ...</option>
+                    <option>መኪና (Car)</option>
+                    <option>ሚኒባስ</option>
+                    <option>አውቶቡስ</option>
+                    <option>ታክሲ</option>
+                    <option>ሞተር ሳይክል</option>
+                    <option>ጭነት መኪና</option>
+                </select>
+            </div>
+            <span class="section-label">የጥሰት መረጃ</span>
+            <div class="form-group">
+                <label>የጥሰት ዓይነት *</label>
+                <select id="f-viol">
+                    <option value="">ይምረጡ...</option>
+                    <option>ታሪፍ ባለመስቀል</option>
+                    <option>ትርፍ ሰው</option>
+                    <option>ከታሪፍ በላይ</option>
+                    <option>ከመመሪያ ውጭ</option>
+                    <option>ትእዛዝ ባለመቀበል</option>
+                    <option>ታፔላ የሌለው</option>
+                    <option>የተከለከለ ቦታ</option>
+                    <option>ከዘርፍ ውጭ</option>
+                    <option>ያልተፈቀደ አገልግሎት</option>
+                    <option>ሰርቪስ ፍቃድ የሌለው</option>
+                    <option>የብቃት ማረጋገጫ የሌለው</option>
+                    <option>የብቃት ማረጋገጫ ያልያዘ</option>
+                    <option>የጭነት ሸራ ባለመሸፈን</option>
+                    <option>የብረት ታፔላ ባለመስቀል</option>
+                    <option>መስመር ባለመሸፈን</option>
+                    <option>ሁከትን ብጥብጥ በስራ ቦታ ላይ መፍጠር</option>
+                    <option>የመግጨት ሙከራ</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>የተፈረደ ቅጣት (ብር)</label>
+                <input type="number" id="f-fine" placeholder="ምሳሌ፡ 500">
+            </div>
+            <div class="form-group">
+                <label>ቦታ / አድራሻ</label>
+                <input type="text" id="f-location" placeholder="ምሳሌ፡ ቦሌ መንገድ">
+            </div>
+            <div class="form-group">
+                <label>ተጨማሪ ማስታወሻ</label>
+                <textarea id="f-note" placeholder="ተጨማሪ ማብራሪያ..."></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="submitRecord()">✅ ምዝገባ አስገባ</button>
+        </div>
+    </div>
+
+    <!-- RECORDS TAB -->
+    <div class="tab-content" id="tab-records">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+            <strong style="color:var(--green-dark);">የተመዘገቡ ጥሰቶች</strong>
+            <button class="btn btn-danger" style="width:auto;padding:8px 14px;font-size:0.78rem;" onclick="clearRecords()">🗑 አጽዳ</button>
+        </div>
+        <div id="records-list"></div>
+    </div>
+
+    <!-- INSPECTORS TAB -->
+    <div class="tab-content" id="tab-inspectors">
+        <div class="form-card" style="margin-bottom:16px;">
+            <h3>➕ አዲስ ተቆጣጣሪ ጨምር</h3>
+            <div class="form-group">
+                <label>ስም</label>
+                <input type="text" id="new-insp-name" placeholder="ሙሉ ስም">
+            </div>
+            <div class="form-group">
+                <label>ID</label>
+                <input type="text" id="new-insp-id" placeholder="ምሳሌ፡ TC040">
+            </div>
+            <div class="form-group">
+                <label>የይለፍ ቃል</label>
+                <input type="password" id="new-insp-pass" placeholder="አዲስ የይለፍ ቃል">
+            </div>
+            <button class="btn btn-primary" onclick="addInspector()">ጨምር</button>
+        </div>
+        <strong style="color:var(--green-dark);display:block;margin-bottom:12px;">ተቆጣጣሪዎች ዝርዝር</strong>
+        <div id="inspectors-list"></div>
+    </div>
 </div>
+
+<div class="toast" id="toast"></div>
 
 <script>
-  function updateDateTime() {
-    const now = new Date();
-    const months = ['ጃን','ፌብ','ማርች','ኤፕ','ሜይ','ጁን','ጁላ','ኦገስ','ሴፕ','ኦክት','ኖቭ','ዲሴ'];
-    document.getElementById('today-date').textContent =
-      now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
-    document.getElementById('today-time').textContent =
-      now.toLocaleTimeString('am-ET', {hour:'2-digit', minute:'2-digit'});
-  }
-  updateDateTime();
-  setInterval(updateDateTime, 30000);
+const DEFAULT_INSPECTORS = [
+    {id:"TC001", name:"አበበ ከበደ", pass:"abc123", active:true},
+    {id:"TC002", name:"ሰላም ደሳለኝ", pass:"abc123", active:true},
+    {id:"TC003", name:"ምሕረት ሃይሌ", pass:"abc123", active:true},
+    {id:"TC004", name:"ዳዊት ተፈራ", pass:"abc123", active:true},
+    {id:"TC005", name:"ሄለን አለሙ", pass:"abc123", active:true},
+    {id:"ADMIN", name:"ብዙነህ ግባባቸው", pass:"admin2025", active:true}
+];
 
-  // Set default date
-  const d = document.getElementById('rdate');
-  if(d) d.valueAsDate = new Date();
+let extraInspectors = JSON.parse(localStorage.getItem('extra_inspectors') || '[]');
+let inspectors = [...DEFAULT_INSPECTORS, ...extraInspectors];
+let records = JSON.parse(localStorage.getItem('records') || '[]');
+let currentUser = null;
+let todayStr = new Date().toLocaleDateString('am-ET');
 
-  function showTab(tab) {
-    ['dashboard','passenger','freight','report'].forEach(t => {
-      document.getElementById('tab-'+t).style.display = t === tab ? '' : 'none';
-    });
-    document.querySelectorAll('.nav-tab').forEach((el, i) => {
-      el.classList.remove('active');
-    });
-    const tabs = ['dashboard','passenger','freight','report'];
-    const idx = tabs.indexOf(tab);
-    document.querySelectorAll('.nav-tab')[idx].classList.add('active');
-  }
+function saveData() {
+    localStorage.setItem('extra_inspectors', JSON.stringify(extraInspectors));
+    localStorage.setItem('records', JSON.stringify(records));
+}
+
+function checkLogin() {
+    const id = document.getElementById('userid').value.trim().toUpperCase();
+    const pass = document.getElementById('password').value;
+    const insp = inspectors.find(i => i.id === id && i.pass === pass && i.active);
+    const errEl = document.getElementById('login-error');
+    if (insp) {
+        currentUser = insp;
+        errEl.style.display = 'none';
+        document.getElementById('current-user-name').textContent = insp.name;
+        document.getElementById('current-user-id').textContent = 'ID: ' + insp.id;
+        showPage('dashboard');
+        updateStats();
+        renderRecords();
+        renderInspectors();
+    } else {
+        errEl.style.display = 'block';
+    }
+}
+
+function logout() {
+    currentUser = null;
+    document.getElementById('userid').value = '';
+    document.getElementById('password').value = '';
+    showPage('login');
+}
+
+function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+}
+
+function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    btn.classList.add('active');
+    if (tabId === 'tab-records') renderRecords();
+    if (tabId === 'tab-inspectors') renderInspectors();
+}
+
+function submitRecord() {
+    const plate = document.getElementById('f-plate').value.trim();
+    const vtype = document.getElementById('f-vtype').value;
+    const viol = document.getElementById('f-viol').value;
+    const fine = document.getElementById('f-fine').value;
+    const loc = document.getElementById('f-location').value.trim();
+    const note = document.getElementById('f-note').value.trim();
+    if (!plate || !viol) { showToast('⚠️ የሰሌዳ ቁጥር እና የጥሰት ዓይነት ያስፈልጋሉ!'); return; }
+    const rec = { id: Date.now(), plate, vtype, viol, fine, loc, note, inspector: currentUser.name, inspectorId: currentUser.id, time: new Date().toLocaleString('am-ET'), date: new Date().toLocaleDateString('am-ET') };
+    records.unshift(rec);
+    saveData();
+    updateStats();
+    ['f-plate','f-vtype','f-viol','f-fine','f-location','f-note'].forEach(id => { document.getElementById(id).value = ''; });
+    showToast('✅ ምዝገባ በተሳካ ሁኔታ ተመዝግቧል!');
+}
+
+function renderRecords() {
+    const el = document.getElementById('records-list');
+    if (!records.length) { el.innerHTML = '<div class="empty-state">📭 እስካሁን ምዝገባ የለም</div>'; return; }
+    el.innerHTML = records.map(r => `
+        <div class="record-card">
+            <div class="record-plate">🚗 ${r.plate} ${r.vtype ? '— ' + r.vtype : ''}</div>
+            <div class="record-violation">⚠️ ${r.viol}</div>
+            ${r.fine ? `<span class="badge-fine">💰 ${r.fine} ብር</span>` : ''}
+            <div class="record-meta">📍 ${r.loc || 'ቦታ አልተገለጸም'} | 🕐 ${r.time}<br>👤 ${r.inspector} (${r.inspectorId})${r.note ? '<br>📝 ' + r.note : ''}</div>
+        </div>`).join('');
+}
+
+function clearRecords() {
+    if (confirm('ሁሉንም መዝገቦች መሰረዝ ትፈልጋለህ?')) {
+        records = []; saveData(); renderRecords(); updateStats(); showToast('🗑 መዝገቦች ተሰርዘዋል');
+    }
+}
+
+function updateStats() {
+    document.getElementById('stat-total').textContent = records.filter(r => r.date === todayStr).length;
+    document.getElementById('stat-mine').textContent = records.filter(r => r.inspectorId === currentUser?.id).length;
+}
+
+function renderInspectors() {
+    document.getElementById('inspectors-list').innerHTML = inspectors.map(i => `
+        <div class="inspector-card">
+            <div class="inspector-avatar">${i.name.charAt(0)}</div>
+            <div class="inspector-info"><div class="inspector-name">${i.name}</div><div class="inspector-id">ID: ${i.id}</div></div>
+            <span class="inspector-status ${i.active ? 'status-active' : 'status-inactive'}">${i.active ? '✔ ንቁ' : '✘ ያልንቁ'}</span>
+        </div>`).join('');
+}
+
+function addInspector() {
+    const name = document.getElementById('new-insp-name').value.trim();
+    const id = document.getElementById('new-insp-id').value.trim().toUpperCase();
+    const pass = document.getElementById('new-insp-pass').value;
+    if (!name || !id || !pass) { showToast('⚠️ ሁሉንም መረጃ ያስገቡ!'); return; }
+    if (inspectors.find(i => i.id === id)) { showToast('⚠️ ይህ ID አስቀድሞ አለ!'); return; }
+    extraInspectors.push({ id, name, pass, active: true });
+    inspectors = [...DEFAULT_INSPECTORS, ...extraInspectors];
+    saveData(); renderInspectors();
+    document.getElementById('new-insp-name').value = '';
+    document.getElementById('new-insp-id').value = '';
+    document.getElementById('new-insp-pass').value = '';
+    showToast('✅ ተቆጣጣሪ ተጨምሯል!');
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && document.getElementById('page-login').classList.contains('active')) checkLogin();
+});
 </script>
 </body>
 </html>
